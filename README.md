@@ -1,3 +1,4 @@
 # python_practice
 useful python tricks
-the content follows https://docs.python.org/2.7/library/index.html
+
+内容按照 https://docs.python.org/2.7/library/index.html 所示的目录组织
