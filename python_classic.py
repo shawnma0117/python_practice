@@ -1,57 +1,177 @@
 '''
 --------------------------------------
-python 基本特性，主要数据结构，主要内置方法
+python 基本特性，主要数据结构及其方法，主要内置方法
 --------------------------------------
 '''
-# --------List----------------
-# CREATION
-# 1. create a null list, then append.
-dogs = []
-dogs.append('a')
-dogs.append('b')
-dogs.append('c')
-dogs.append('d')
-# 2. set explicitly
-dogs=['a','b','c','d']
-# 3. list comprehension 
-l1 = [i*2 for i in range(10)]
-# a more complex version
-xl = [1,3,5]
-yl = [9,12,13]
-l2  = [ x**2 for (x,y) in zip(xl,yl) if x+y > 10]
-# 4. transform from tuple
-l3 = list(t)  
-l4 = list('string')
 
-# list functions
-dogs.append('a')
-dogs.extend(dogs2) # append all items in dogs2 after dogs.
-dogs.remove('b') #remove specific item
+#-- 寻求帮助:
+    dir(obj)            # 简单的列出对象obj所包含的方法名称，返回一个字符串列表
+    help(obj.func)      # 查询obj.func的具体介绍和用法
+    
+#-- 测试对象的类型，推荐第二种
+    if type(L) == list:
+        print("L is list")
+    if isinstance(L, list):
+        print("L is list")
+        
+#-- Python数据类型：哈希类型、不可哈希类型
+    # 哈希类型，即在原地不能改变的变量类型，不可变类型。可利用hash函数查看其hash值，也可以作为字典的key
+    "数字类型：int, float, decimal.Decimal, fractions.Fraction, complex"
+    "字符串类型：str, bytes"
+    "元组：tuple"
+    "冻结集合：frozenset"
+    "布尔类型：True, False"
+    "None"
+    # 不可hash类型：原地可变类型：list、dict和set。它们不可以作为字典的key。
 
-dogs.insert(4,'e') # insert item at specific place.
-dogs.pop()  # delete the last item
-dogs.pop(2) # delete specified item, reverse of insert()
+#-- 数字常量
+    1234, -1234, 0, 999999999                    # 整数
+    1.23, 1., 3.14e-10, 4E210, 4.0e+210          # 浮点数
+    0o177, 0x9ff, 0X9FF, 0b101010                # 八进制、十六进制、二进制数字
+    3+4j, 3.0+4.0j, 3J                           # 复数常量，也可以用complex(real, image)来创建
+    hex(I), oct(I), bin(I)                       # 将十进制数转化为十六进制、八进制、二进制表示的“字符串”
+    int(string, base)                            # 将字符串转化为整数，base为进制数
+    # 2.x中，有两种整数类型：一般整数（32位）和长整数（无穷精度）。可以用l或L结尾，迫使一般整数成为长整数
+    float('inf'), float('-inf'), float('nan')    # 无穷大, 无穷小, 非数
 
-dogs_a=['a','b','d','c']
-dogs_a.sort() # 直接改变dogs对象本身。
-dogs_b = sorted(dogs_a) # 不改变对象本身
-dogs_b == dogs_a  # False
-dogs.reverse()
-del dogs # remove the list object from memory
+#-- 数字的表达式操作符
+    yield x                                      # 生成器函数发送协议
+    lambda args: expression                      # 生成匿名函数
+    x if y else z                                # 三元选择表达式
+    x and y, x or y, not x                       # 逻辑与、逻辑或、逻辑非
+    x in y, x not in y                           # 成员对象测试
+    x is y, x is not y                           # 对象实体测试
+    x<y, x<=y, x>y, x>=y, x==y, x!=y             # 大小比较，集合子集或超集值相等性操作符
+    1 < a < 3                                    # Python中允许连续比较
+    x|y, x&y, x^y                                # 位或、位与、位异或
+    x<<y, x>>y                                   # 位操作：x左移、右移y位
+    +, -, *, /, //, %, **                        # 真除法、floor除法：返回不大于真除法结果的整数值、取余、幂运算
+    -x, +x, ~x                                   # 一元减法、识别、按位求补（取反）
+    x[i], x[i:j:k]                               # 索引、分片
+    int(3.14), float(3)                          # 强制类型转换
 
-'b' in dogs # False. evaluate if 'b' is in the list. Also works for tuple, and dictionary keys
+#-- 默认内置函数
+    abs(x)                                      # 返回绝对值
+    all(iterable)                               # 所有元素都为true才返回true
+    any(iterable)                               # 只要有一个元素为true就返回true
+    bin(x)                                      # 把int转为binary string
+    callable(object)                            # 测试对象是否可以被call
+    enumerate(sequence, start=0)                # 返回序列的索引和值。遍历序列的时候很有用
+    zip()
+    map(function, iterable, ...)                # 把function应用到每一个元素上去，返回一个list
+    reduce()                                    #
+    filter()
+    len(s)                                       # 返回sequence对象的长度
+    dict(),list(),set(),str(),float(),dict(),tuple()  # 数据类型创建
+    slice()
+    sorted()
+    max(iterable[, key])
+    min(iterable[, key])
+    sum(iterable[, start])                           # 求最大，最小，总和
+    
 
-#list indexing
-a= [2, 19, 1, 4, 6, 88, 2]
-a[1] #19
-a[-1] #2
-a[0:5] #[2, 19, 1, 4, 6]
-a[0:5:2] #[2, 1, 6]
-a[5:0:-2] #[88, 4, 19]
-a[1:] #[19, 1, 4, 6, 88, 2]
 
+#-- 列表List 
+    L = []                                            # 初始化空列表
+    L = [[1, 2], 'string', {}]                        # 嵌套列表
+    L = list('spam')                                  # 列表初始化
+    L = list(range(0, 4))                             # 列表初始化
+    list(map(ord, 'spam'))                            # 列表解析
+    len(L)                                            # 求列表长度
+    L.count(value)                                    # 求列表中某个值的个数
+    L.append(obj)                                     # 向列表的尾部添加数据，比如append(2)，添加元素2
+    L.insert(index, obj)                              # 向列表的指定index位置添加数据，index及其之后的数据后移
+    L.extend(interable)                               # 通过添加iterable中的元素来扩展列表，比如extend([2])，添加元素2，注意和append的区别
+    L.index(value, [start, [stop]])                   # 返回列表中值value的第一个索引
+    L.pop([index])                                    # 删除并返回index处的元素，默认为删除并返回最后一个元素
+    L.remove(value)                                   # 删除列表中的value值，只删除第一次出现的value的值
+    L.reverse()                                       # 反转列表
+    L.sort(cmp=None, key=None, reverse=False)         # 排序列表，会改变 L本身
+    L_new = sorted(L)                                 # 排序，不改变对象本身
+    a = [1, 2, 3], b = a[10:]                         # 注意，这里不会引发IndexError异常，只会返回一个空的列表[]
+    a = [], a += [1]                                  # 这里实在原有列表的基础上进行操作，即列表的id没有改变
+    a = [], a = a + [1]                               # 这里最后的a要构建一个新的列表，即a的id发生了变化
 
-# --------Tuple--------------
+#-- 列表推导式 list comprehension 
+    l1 = [i*2 for i in range(10)]
+    
+    xl = [1,3,5]              
+    yl = [9,12,13]
+    l2  = [ x**2 for (x,y) in zip(xl,yl) if x+y > 10]  # 带条件判读的推导
+
+#---- 常见字符串常量和表达式
+    S = ''                                  # 空字符串
+    S = "spam’s"                            # 双引号和单引号相同
+    S = "s\np\ta\x00m"                      # 用"\"转义字符
+    S = """spam"""                          # 三重引号字符串，一般用于函数说明
+    S = r'\temp'                            # Raw字符串，不会进行转义，抑制转义
+    S = b'Spam'                             # Python3中的字节字符串
+    S = u'spam'                             # Python2.6中的Unicode字符串
+    s1+s2, s1*3, s[i], s[i:j], len(s)       # 拼接；重复某字符；字符索引；字符长度
+    'a %s parrot' % 'kind'                  # 字符串格式化表达式（旧方式，与python 3.x不兼容，不建议使用）
+    'a {1} {0} parrot'.format('kind', 'red')# 字符串格式化方法
+    for x in s: print(x)                    # 打印s中的每一个字符
+    
+
+#----- 内置str处理函数：
+    ','.join(['a', 'b', 'c'])               # 字符串输出，结果：a,b,c
+    str1 = "stringobject"
+    str1.upper(); str1.lower(); str1.swapcase(); str1.capitalize(); str1.title()        # 全部大写，全部小写、大小写转换，首字母大写，每个单词的首字母都大写
+    str1.ljust(width)                       # 获取固定长度，左对齐，右边不够用空格补齐
+    str1.rjust(width)                       # 获取固定长度，右对齐，左边不够用空格补齐
+    str1.center(width)                      # 获取固定长度，中间对齐，两边不够用空格补齐
+    str1.zfill(width)                       # 获取固定长度，右对齐，左边不足用0补齐
+    str1.find('t',start,end)                # 查找子串，可以指定起始及结束位置搜索
+    str1.rfind('t')                         # 从右边开始查找子串
+    str1.count('t')                         # 查找不重复出现的子串的次数
+    #上面所有方法都可用index代替，不同的是使用index查找不到会抛ValueError异常，而find返回-1
+    str1.index(sub[, start[, end]])
+    str1.replace('old','new')               # 替换函数，替换old为new，参数中可以指定maxReplaceTimes，即替换指定次数的old为new
+    str1.strip();                           # 默认删除空白符
+    str1.strip('abc');                        # 删除str1字符串中开头、结尾处，所有"abc"组合出来的字符
+    #例如：
+        '   spacious   '.strip()                #输出'spacious'
+        'www.example.com'.strip('cmowz.')       #输出'example'
+    str1.rstrip(); str1.lstrip()            # 同理
+    str1.startswith('start')                # 是否以start开头
+    str1.endswith('end')                    # 是否以end结尾
+    str1.isalnum(); str1.isalpha(); str1.isdigit(); str1.islower(); str1.isupper()      # 判断字符串是否全为字符、数字、小写、大写
+
+#-- Python中的字符串格式化实现2--字符串格式化调用方法
+    # 普通调用
+    "{0}, {1} and {2}".format('spam', 'ham', 'eggs')            # 基于位置的调用
+    "{motto} and {pork}".format(motto = 'spam', pork = 'ham')   # 基于Key的调用
+    "{motto} and {0}".format('ham', motto = 'spam')             # 混合调用
+    # 添加键 属性 偏移量 (import sys)
+    "my {1[spam]} runs {0.platform}".format(sys, {'spam':'laptop'})                 # 基于位置的键和属性
+    "{config[spam]} {sys.platform}".format(sys = sys, config = {'spam':'laptop'})   # 基于Key的键和属性
+    "first = {0[0]}, second = {0[1]}".format(['A', 'B', 'C'])                       # 基于位置的偏移量
+    # 具体格式化
+    "{0:e}, {1:.3e}, {2:g}".format(3.14159, 3.14159, 3.14159)   # 输出'3.141590e+00, 3.142e+00, 3.14159'
+    "{fieldname:format_spec}".format(......)
+    # 说明:
+    """
+        fieldname是指定参数的一个数字或关键字, 后边可跟可选的".name"或"[index]"成分引用
+        format_spec ::=  [[fill]align][sign][#][0][width][,][.precision][type]
+        fill        ::=  <any character>              #填充字符
+        align       ::=  "<" | ">" | "=" | "^"        #对齐方式
+        sign        ::=  "+" | "-" | " "              #符号说明
+        width       ::=  integer                      #字符串宽度
+        precision   ::=  integer                      #浮点数精度
+        type        ::=  "b" | "c" | "d" | "e" | "E" | "f" | "F" | "g" | "G" | "n" | "o" | "s" | "x" | "X" | "%"
+    """
+    # 例子:
+        '={0:10} = {1:10}'.format('spam', 123.456)    # 输出'=spam       =    123.456'
+        '={0:>10}='.format('test')                    # 输出'=      test='
+        '={0:<10}='.format('test')                    # 输出'=test      ='
+        '={0:^10}='.format('test')                    # 输出'=   test   ='
+        '{0:X}, {1:o}, {2:b}'.format(255, 255, 255)   # 输出'FF, 377, 11111111'
+        'My name is {0:{1}}.'.format('Fred', 8)       # 输出'My name is Fred    .'  动态指定参数
+        'add percentage: {0:.2%}'.format(0.6999)      # 输出'add percentage: 69.99%'
+        'specify precision: {0:,.2f}'.format(1492845.009)  #输出specify precision: 1,492,845.01'
+        
+
+#--- Tuple元组
 # CREATION
 # 1. set explicitly
 t = (1,2,3)
@@ -71,92 +191,7 @@ longer_t = string_t + t  # ('a', 'h', 'h', 'h', 'h', 'h', 'h', 'h', 'h', 1, 2, 3
 a,b,c=t
 print b  #2
 
-
-# -------String: a special tuple -----------
-# use \ 转义
-special_str1= 'I\nLove you'
-special_str1.index('\n') #1
-
-# STRING FUNCTIONS
-filename = 'budget.csv          '
-filename = filename.strip()
-
-# transform case
-heading = 'the best man in the world'
-heading.title() # 'The Best Man In The World'
-heading.title().swapcase()  # 'tHE bEST mAN iN tHE wORLD'
-filename.upper()  # 'BUDGET.CSV'
-filename.capitalize() #'Budget.csv'
-
-
-# str.join(s):将s中的元素，以str为分割符，合并成为一个字符串。
-'|'.join(filename) # 'b|u|d|g|e|t|.|c|s|v' 
-heading_list = heading.split(' ')  # join的逆操作。return a list
-len(heading_list) # 6 
-
-# find & replace substring
-str1 = 'oh ah ah oh yeah'
-str1.find('oh') #0
-str1.rfind('oh') #9
-str1.count('oh') #2
-str1.count(' yeah ') # 0
-str1.replace('ah','B') #'oh B B oh yeB'  replace all matched items.
-
-# logical operation
-str2 = 'elephant'
-str1.isalnum() # False. because of \n
-str1.isalpha() # False. because of \n
-str2.isalpha() # True
-str2.isalnum() # True.
-str3 = str2 + '3334'
-str3.isalpha() # False
-
-# string formatting with %
-name = raw_input("What is your name? ")
-quest = raw_input("What is your quest? ")
-color = raw_input("What is your favorite color? ")
-
-print "Ah, so your name is %s, your quest is %s, " \
-"and your favorite color is %s." % (name, quest, color)
-
-template = '%.2f %s are worth $%d'  #可先创建一个格式字符串,再填充
-template % (1.45, 'Argentine Pesos',1)
-# '1.45 Argentine Pesos are worth $1'
-
-
 # -------Sequence functions: for List and Tuple -----------
-# common functions
-'''
-# s为一个序列
-len(s)         返回： 序列中包含元素的个数
-
-min(s)         返回： 序列中最小的元素
-
-max(s)         返回： 序列中最大的元素
-
-all(s)         返回： True, 如果所有元素都为True的话
-
-any(s)         返回： True, 如果任一元素为True的话
-
- 
-
-下面的方法主要起查询功能，不改变序列本身, 可用于表和定值表:
-
-sum(s)         返回：序列中所有元素的和
-
-# x为元素值，i为下标(元素在序列中的位置)
-
-s.count(x)     返回： x在s中出现的次数
-
-s.index(x)     返回： x在s中第一次出现的下标
-'''
-
-S = 'abcdefghijk'
-S.count('k') # 1
-S.count('K') # 0
-S.index('K') # ValueError: substring not found
-S.index('k') # 10
-
 # 1.range(): range(起点,终点,步长)
 for i in range(0,len(S),2):
     print S[i]
@@ -185,7 +220,7 @@ na,nb,nc = zipped # unpacking. each is a tuple
 absfrom,absto = map(os.path.abspath,[fromfile,todir])  # making absolute paths
 
 
-# --------Dictionary---------------
+# ---字典
 # CREATION
 # 1. set a null dict, then append
 animal_counts={}
@@ -284,6 +319,8 @@ for i in g1:
 # 100
 # 800
 # 1000
+
+
 #-------------闭包:返回函数的函数----------------------------
 def format_and_pad(template, space):
     def formatter(x):
@@ -295,73 +332,6 @@ fmt(1.999999)
 #'         2.0000'
 
 
-
-'''
---------------------------------------
-# 1/USING python datetime module  #
---------------------------------------
-'''
-import pandas as pd
-import numpy as np
-import sys
-import types
-import math
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
-
-
-dp1 = '~/coryli/meritco/campaign_performance_tracking/touchpoint_input/Meritco_services_kol_performance_touchpoints_input_GB18030_20171120.csv'
-df = pd.read_csv(dp1, sep=',', encoding ='gb18030' ,header=0, index_col=False)
-
-
-df['search_start']=pd.to_datetime(df[u'检索时间（起始时间）'])
-df['search_end']=pd.to_datetime(df[u'检索时间（终止时间）'])
-df = df.drop([u'检索时间（起始时间）',u'检索时间（终止时间）'],axis=1)
-df['search_start_epoch'] = df['search_start'].astype('int64') // 10**9
-df['search_end_epoch'] = df['search_end'].astype('int64') // 10**9
-
-df['search_lag'] = df['search_end_epoch'] - df['search_start_epoch']
-
-df['search_lag_range'] = '<=30'
-df.loc[df.search_lag > 30*24*3600,['search_lag_range']] = '>30'
-df.loc[df.search_lag > 45*24*3600,['search_lag_range']] = '>45'
-
-range_agg = df.groupby(['search_lag_range'],as_index=False).userid.count()
-
-
-'''
-####################################
- USING pandas.datetime64  class 
-###################################
-'''
-imp_visits['impress_dt'] = pd.to_datetime(imp_visits.impress_time,unit='s').dt.date # datetime.date
-imp_visits['pv_dt'] = pd.to_datetime(imp_visits.pv_time,unit='s').dt.date # datetime.date
-
-end_date = pd.Series(pd.to_datetime(['2017-08-21','2017-08-28','2017-09-04','2017-09-11','2017-09-18','2017-09-25','2017-10-02'],format='%Y-%m-%d'))
-end_date = end_date.dt.date  # convert timestamps to datetime.date
-
-# datetime 包练习；
-imp_ord_nov=pd.read_csv('imp_ord_nov.txt', sep='|', encoding='utf-8', header=None, names=['user_pin', 'sale_ord_dt','sale_ord_tm','sale_ord_time','sale_ord_id', 'sale_qtty', 'after_prefr_amount','item_sku_id','item_name','channel','campaign','device_id','device_type','mobile_type','imp_id','impress_time','impress_tm','ad_plan_id','dt'], index_col=False)
-imp_ord_nov.sale_ord_dt = pd.to_datetime(imp_ord_nov.sale_ord_dt,format='%Y-%m-%d')
-imp_ord_nov.dt=pd.to_datetime(imp_ord_nov.dt,format='%Y-%m-%d') # string转换为datetime64
-imp_ord_lag_days = imp_ord_nov.sale_ord_dt - imp_ord_nov.dt  # 计算日期差，timedelta64类型
-type(imp_ord_lag_days[1])
-today=date.today()
-today
-birthday = date(1993,1,17)  # 构建方法
-today == birthday
-birthday.isoformat()  #输出标准日起  1993-01-17
-birthday.weekday()  # sunday
-birthday.isoweekday() # sunday is represented as 7
-birthday.ctime()
-print today.strftime("%d:%m:%Y"),today.strftime("%d-%m-%Y")
-mylivingdays = today - birthday
-print(type(mylivingdays),mylivingdays)
-mylivingdays.days//365
-interval_days = timedelta(days=5)  #构建方法
-fivedayslater = today + interval_days  #date + timedelta = 新的date
-fivedayslater.isoformat()
 
 
 
@@ -398,7 +368,7 @@ os.getcwd()
 
 
 '''
-to do: 
+TO DO: 
 扫荡python知识空洞，按照python tutorial的顺序整理这个文档，上传GitHub
 '''
 
