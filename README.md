@@ -1,2 +1,3 @@
 # python_practice
-useful python tricks here
+useful python tricks
+the content follows https://docs.python.org/2.7/library/index.html
