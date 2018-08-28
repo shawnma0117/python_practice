@@ -379,3 +379,9 @@ TO DO:
 n = int(input())
 print(*range(1,n+1),sep='')
 
+# 从stdin中读入N个值
+students=[]
+for _ in range(int(raw_input())):
+    name = raw_input()
+    score = float(raw_input())
+    students.append([name,score])
