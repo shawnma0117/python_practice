@@ -51,24 +51,48 @@ python 基本特性，主要数据结构及其方法，主要内置方法
     int(3.14), float(3)                          # 强制类型转换
 
 #-- 默认内置函数
-    abs(x)                                      # 返回绝对值
-    all(iterable)                               # 所有元素都为true才返回true
-    any(iterable)                               # 只要有一个元素为true就返回true
-    bin(x)                                      # 把int转为binary string
-    callable(object)                            # 测试对象是否可以被call
-    enumerate(sequence, start=0)                # 返回序列的索引和值。遍历序列的时候很有用
+    abs(x)                                       # 返回绝对值
+    all(iterable)                                # 所有元素都为true才返回true
+    any(iterable)                                # 只要有一个元素为true就返回true
+    bin(x)                                       # 把int转为binary string
+    callable(object)                             # 测试对象是否可以被call
+    enumerate(sequence, start=0)                 # 返回序列的索引和值。遍历序列的时候很有用
     zip()
-    map(function, iterable, ...)                # 把function应用到每一个元素上去，返回一个list
-    reduce()                                    #
+    map(function, iterable, ...)                 # 把function应用到每一个元素上去，返回一个list
+    reduce()                                     # 
     filter()
     len(s)                                       # 返回sequence对象的长度
-    dict(),list(),set(),str(),float(),dict(),tuple()  # 数据类型创建
+    dict(),list(),set()
+	str(),float(),dict(),tuple()  				 # 数据类型创建
     slice()
-    sorted()
+    sorted(iterable[, cmp[, key[, reverse]]])    # 排序函数。可以按照指定key排序，排序规则cmp，和顺序reverse
     max(iterable[, key])
     min(iterable[, key])
-    sum(iterable[, start])                           # 求最大，最小，总和
+    sum(iterable[, start])                       # 求最大，最小，总和
+	range(起点,终点,步长)							 # 主要用于循环
     
+#-- 重要内置函数用法详解
+	''' 由于一些内置函数经常用到，因此把好的写法总结起来'''
+	# enumerate(): get the index and value at the sametime
+	for (index,char) in enumerate(S):
+		print index
+		print char
+
+	# zip(): iterate several list with same length
+	ta = [1,2,3]
+	tb = [9,8,7]
+	tc = ['a','b','c']
+	for (a,b,c) in zip(ta,tb,tc):
+		print('ta is: %d \n tb is:%d \n tc is:%s' %(a,b,c))
+
+zipped = zip(ta,tb,tc)  # zipped is a list
+print(zipped)
+
+na,nb,nc = zipped # unpacking. each is a tuple
+
+	# 4.map(): 用函数批量处理iterable中的每个元素
+	absfrom,absto = map(os.path.abspath,[fromfile,todir])  # making absolute paths
+
 
 
 #-- 列表List 
@@ -191,60 +215,69 @@ longer_t = string_t + t  # ('a', 'h', 'h', 'h', 'h', 'h', 'h', 'h', 'h', 1, 2, 3
 a,b,c=t
 print b  #2
 
-# -------Sequence functions: for List and Tuple -----------
-# 1.range(): range(起点,终点,步长)
-for i in range(0,len(S),2):
-    print S[i]
-
-# 2.enumerate(): get the index and value at the sametime
-for (index,char) in enumerate(S):
-    print index
-    print char
-# a perfect use case: to create dict
-mapping = dict((v,i) for i,v in enumerate(S))
-
-# 3.zip(): iterate several list with same length
-ta = [1,2,3]
-tb = [9,8,7]
-tc = ['a','b','c']
-for (a,b,c) in zip(ta,tb,tc):
-    print('ta is: %d \n tb is:%d \n tc is:%s' %(a,b,c))
-
-zipped = zip(ta,tb,tc)  # zipped is a list
-print(zipped)
-
-na,nb,nc = zipped # unpacking. each is a tuple
-
-# other useful built-in functions
-# map
-absfrom,absto = map(os.path.abspath,[fromfile,todir])  # making absolute paths
 
 
-# ---字典
-# CREATION
-# 1. set a null dict, then append
-animal_counts={}
-animal_counts['horse'] = 1
-animal_counts['cats'] = 2
-animal_counts['dogs'] = 5
-animal_counts['snakes'] = 0
-# 2. set explictly 
-animal_counts = {'hourse':1,'cats':2,'dogs':5,'snakes':0}
-# 3. from list
-animal_counts_1=dict()
-keys = ['hourse','cats','dogs','snakes']
-values = range(1,5)
-for k,v in zip(keys,values):
-	animal_counts_1[k]=v
-# 4. dict comprehension
-s_dict = {k:v for k,v in enumerate(S)}
+#-- 字典dictionary
+	''' 字典有多种方式'''
+	d={};animal_counts['horse'] = 1 	            # 1. set a null dict, then append
+	d = {'hourse':1,'cats':2,'dogs':5,'snakes':0}  	# 2. set explictly 
+	d=dict()  									    # 3. from two list which stores keys and values separately
+	keys = ['hourse','cats','dogs','snakes']
+	values = range(1,5)
+	for k,v in zip(keys,values):
+		animal_counts_1[k]=v
+	
+	s_dict = {k:v for k,v in enumerate(S)}			# 4. dict comprehension
 
-# dict functions
-animal_counts.keys() # return all keys
-animal_counts.values() # return all values
-animal_counts.update({'elepant':100}) # merge one dict with another
-animal_counts.clear() # clear all the content
+	# dict functions
+	animal_counts.keys() # return all keys
+	animal_counts.values() # return all values
+	animal_counts.update({'elepant':100}) # merge one dict with another
+	animal_counts.clear() # clear all the content
+	for k,v in dict.items():  # iterate over a dictionary
 
+#-- 集合set
+    """
+    set是一个无序不重复元素集, 基本功能包括关系测试和消除重复元素。
+    set支持union(联合), intersection(交), difference(差)和symmetric difference(对称差集)等数学运算。
+    set支持x in set, len(set), for x in set。
+    set不记录元素位置或者插入点, 因此不支持indexing, slicing, 或其它类序列的操作
+    """
+    s = {3,4,5}									 # 直接赋值创建
+	s = set([3,5,9,10])                          # 通过list创建，返回{3, 5, 9, 10}
+    t = set("Hello")                             # 创建一个字符的集合，返回{'l', 'H', 'e', 'o'}
+    a = t | s;    t.union(s)                     # t 和 s的并集
+    b = t & s;    t.intersection(s)              # t 和 s的交集
+    c = t – s;    t.difference(s)                # 求差集（项在t中, 但不在s中）
+    d = t ^ s;    t.symmetric_difference(s)      # 对称差集（项在t或s中, 但不会同时出现在二者中）
+	t.union_update(s)							 # 做集合运算的时候顺带把t给改了，类似的还有difference_update
+    t.add('x');   t.remove('H')                  # 增加/删除一个item
+	s.pop()									     # 任意删除一个值
+    s.update([10,37,42])                         # 利用[......]更新s集合
+    x in s,  x not in s                          # 集合中是否存在某个值
+    s.issubset(t);      s <= t                   # 测试是否 s 中的每一个元素都在 t 中
+    s.issuperset(t);    s >= t                   # 测试是否 t 中的每一个元素都在 s 中 
+    s.copy(); 
+    s.discard(x);                                # 删除s中x. 如果x不存在，不会报keyerror
+    s.clear()                                    # 清空s
+    {x**2 for x in [1, 2, 3, 4]}                 # 集合解析，结果：{16, 1, 4, 9}
+    {x for x in 'spam'}                          # 集合解析，结果：{'a', 'p', 's', 'm'}
+    
+#-- 集合frozenset，不可变对象
+    """
+    set是可变对象，即不存在hash值，不能作为字典的键值。同样的还有list等(tuple是可以作为字典key的)
+    frozenset是不可变对象，即存在hash值，可作为字典的键值
+    frozenset对象没有add、remove等方法，但有union/intersection/difference等方法
+    """
+    a = set([1, 2, 3])
+    b = set()
+    b.add(a)                     # error: set是不可哈希类型
+    b.add(frozenset(a))          # ok，将set变为frozenset，可哈希
+		
+		
+		
+		
+		
 '''
 函数参数传递
 iterator， generator， 闭包
@@ -341,7 +374,7 @@ python 标准库学习
 --------------------------------------
 '''
 
-# file:文本文件的输入输出
+#------- file:文本文件的输入输出
 f=open('record.txt','w')
 f.write('tom,12,86\nlee,15,99\nlucy,11,58\njoseph,19,56\n')
 f.close()
@@ -355,27 +388,43 @@ for line in f:
 print line, 
 
 
-# os.path
-import os.path
+#------ os: interacting with operating system
+import os
+path = os.getcwd()  									# 获取当前工作路径 '/home/ads_inno/shawnma/py_practice'
+print(os.path.basename(path)) 							# py_practice
+print(os.path.dirname(path)) 							# /home/ads_inno/shawnma
+info = os.path.split(path) 								# 将路径名和文件名分开放
+os.chdir('') # 修改当前工作路径
+os.path.abspath(sub_dir)								# 将输入的子路径，构建成绝对路径。其实就是把当前的cwd加在前面
+os.path.exists(dir)										# 看某个路径是否存在
+os.mkdir(dir)											# 创建路径
+os.remove(dir) 											# 删除路径
+os.listdir(dir)											# 列出路径下的所有文件
+os.path.isabs(path)
+os.path.isfile(path)
+os.path.isdir(path)
+os.path.join(path, *paths)								# 用系统分隔符concatenate路径
+
+#------- sys
 import sys
-sys_argv = sys.argv
-path = '/home/ads_inno/shawnma/py_practice'
-print(os.path.basename(path)) # py_practice
-print(os.path.dirname(path)) # /home/ads_inno/shawnma
-info = os.path.split(path) # 将路径名和文件名分开放
-
-os.getcwd()
+sys_argv = sys.argv        # store command line arguments in a list
+first_argv = sys_argv[0]
 
 
 '''
-TO DO: 
-扫荡python知识空洞，按照python tutorial的顺序整理这个文档，上传GitHub
+hackerrank中觉得比较使用的代码片段
 '''
+#-- 从stdin读入多个参数
+n,m = map(int, raw_input().split()) #raw_input()读入的是string，必须转型
 
-# Read an integer N
-# Without using any string methods, try to print the following:
-# 12345...N
-# Note that "" represents the values in between.
+#-- print statement后面加逗号，可以把对象打在同一行
+for n in range(1,5):
+    print n,
+
+#-- 在python2 中使用python3的print()
+from __future__ import print_function
+
+# 读入一个整数n，打印成“12345...N”
 n = int(input())
 print(*range(1,n+1),sep='')
 
