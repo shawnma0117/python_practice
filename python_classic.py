@@ -51,26 +51,101 @@ python 基本特性，主要数据结构及其方法，主要内置方法
     int(3.14), float(3)                          # 强制类型转换
 
 #-- 默认内置函数
-    abs(x)                                       # 返回绝对值
-    all(iterable)                                # 所有元素都为true才返回true
-    any(iterable)                                # 只要有一个元素为true就返回true
-    bin(x)                                       # 把int转为binary string
-    callable(object)                             # 测试对象是否可以被call
-    enumerate(sequence, start=0)                 # 返回序列的索引和值。遍历序列的时候很有用
-    zip()
-    map(function, iterable, ...)                 # 把function应用到每一个元素上去，返回一个list
-    reduce()                                     # 
-    filter()
-    len(s)                                       # 返回sequence对象的长度
-    dict(),list(),set()
-	str(),float(),dict(),tuple()  				 # 数据类型创建
-    slice()
-    sorted(iterable[, cmp[, key[, reverse]]])    # 排序函数。可以按照指定key排序，排序规则cmp，和顺序reverse
-    max(iterable[, key])
-    min(iterable[, key])
-    sum(iterable[, start])                       # 求最大，最小，总和
-	range(起点,终点,步长)							 # 主要用于循环
+   """数学运算类"""
+    abs(x)                              # 求绝对值，参数可以是整型，也可以是复数，若参数是复数，则返回复数的模
+    complex([real[, imag]])             # 创建一个复数
+    divmod(a, b)                        # 分别取商和余数，注意：整型、浮点型都可以
+    float([x])                          # 将一个字符串或数转换为浮点数。如果无参数将返回0.0
+    int([x[, base]])                    # 将一个字符串或浮点数转换为int类型，base表示进制
+    long([x[, base]])                   # 将一个字符串或浮点数转换为long类型
+    pow(x, y)                           # 返回x的y次幂
+    range([start], stop[, step])        # 产生一个序列，默认从0开始
+    round(x[, n])                       # 四舍五入
+    sum(iterable[, start])              # 对集合求和
+    oct(x)                              # 将一个数字转化为8进制字符串
+    hex(x)                              # 将一个数字转换为16进制字符串
+    chr(i)                              # 返回给定int类型对应的ASCII字符
+    unichr(i)                           # 返回给定int类型的unicode
+    ord(c)                              # 返回ASCII字符对应的整数
+    bin(x)                              # 将整数x转换为二进制字符串
+    bool([x])                           # 将x转换为Boolean类型
+	
+    """逻辑判断"""
+    all(iterable)                       # 集合中的元素都为真的时候为真，特别的，若为空串返回为True
+    any(iterable)                       # 集合中的元素有一个为真的时候为真，特别的，若为空串返回为False
+    cmp(x, y)                           # 如果x < y ,返回负数；x == y, 返回0；x > y,返回正数
     
+	"""集合类操作"""
+    basestring()                        # str和unicode的超类，不能直接调用，可以用作isinstance判断
+    enumerate(sequence[, start=0])      # 返回一个可枚举的对象，注意它有第二个参数
+    iter(obj[, sentinel])               # 生成一个对象的迭代器，第二个参数表示分隔符
+    max(iterable[, args...][key])       # 返回集合中的最大值
+    min(iterable[, args...][key])       # 返回集合中的最小值
+    dict([arg])                         # 创建数据字典
+    list([iterable])                    # 将一个集合类转换为另外一个集合类
+    set()                               # set对象实例化
+    frozenset([iterable])               # 产生一个不可变的set
+    tuple([iterable])                   # 生成一个tuple类型
+    str([object])                       # 转换为string类型
+    sorted(iterable[, cmp[, key[, reverse]]])             # 集合排序
+        L = [('b',2),('a',1),('c',3),('d',4)]
+        sorted(L, key=lambda x: x[1], reverse=True)       # 使用Key参数和reverse参数
+        sorted(L, key=lambda x: (x[0], x[1]))             # 使用key参数进行多条件排序，即如果x[0]相同，则比较x[1]
+
+	"""IO操作"""
+    file(filename [, mode [, bufsize]]) # file类型的构造函数。
+    input([prompt])                     # 获取用户输入，推荐使用raw_input，因为该函数将不会捕获用户的错误输入，意思是自行判断类型
+    # 在 Built-in Functions 里有一句话是这样写的：Consider using the raw_input() function for general input from users.
+    raw_input([prompt])                 # 设置输入，输入都是作为字符串处理
+    open(name[, mode[, buffering]])     # 打开文件，与file有什么不同？推荐使用open
+    
+    """其他"""
+    callable(object)                    # 检查对象object是否可调用
+    classmethod(func)                   # 用来说明这个func是个类方法
+    staticmethod(func)                  # 用来说明这个func为静态方法
+    dir([object])                       # 不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。
+    help(obj)                           # 返回obj的帮助信息
+    eval(expression)                    # 计算表达式expression的值，并返回
+    exec(str)                           # 将str作为Python语句执行
+    execfile(filename)                  # 用法类似exec()，不同的是execfile的参数filename为文件名，而exec的参数为字符串。
+    filter(function, iterable)          # 构造一个序列，等价于[item for item in iterable if function(item)]，function返回值为True或False的函数
+        list(filter(bool, range(-3, 4)))# 返回[-3, -2, -1, 1, 2, 3], 没有0
+    hasattr(object, name)               # 判断对象object是否包含名为name的特性
+    getattr(object, name [, defalut])   # 获取一个类的属性. 比如: getattr(x, 'foobar') is equivalent to x.foobar
+    setattr(object, name, value)        # 设置属性值
+    delattr(object, name)               # 删除object对象名为name的属性
+    globals()                           # 返回一个描述当前全局符号表的字典
+    hash(object)                        # 如果对象object为哈希表类型，返回对象object的哈希值
+    id(object)                          # 返回对象的唯一标识，一串数字
+    isinstance(object, classinfo)       # 判断object是否是class的实例
+        isinstance(1, int)              # 判断是不是int类型
+        isinstance(1, (int, float))     # isinstance的第二个参数接受一个元组类型
+    issubclass(class, classinfo)        # 判断class是否为classinfo的子类
+    locals()                            # 返回当前的变量列表
+    map(function, iterable, ...)        # 遍历每个元素，执行function操作
+        list(map(abs, range(-3, 4)))    # 返回[3, 2, 1, 0, 1, 2, 3]
+    next(iterator[, default])           # 类似于iterator.next()
+    property([fget[, fset[, fdel[, doc]]]])           # 属性访问的包装类，设置后可以通过c.x=value等来访问setter和getter
+    reduce(function, iterable[, initializer])         # 合并操作，从第一个开始是前两个参数，然后是前两个的结果与第三个合并进行处理，以此类推
+        def add(x,y):return x + y 
+        reduce(add, range(1, 11))                     # 返回55 (注:1+2+3+4+5+6+7+8+9+10 = 55)
+        reduce(add, range(1, 11), 20)                 # 返回75
+    reload(module)                      # 重新加载模块
+    repr(object)                        # 将一个对象变幻为可打印的格式
+    slice(start, stop[, step])          # 产生分片对象
+    type(object)                        # 返回该object的类型
+    vars([object])                      # 返回对象的变量名、变量值的字典
+        a = Class();                    # Class为一个空类
+        a.name = 'qi', a.age = 9
+        vars(a)                         # {'name':'qi', 'age':9}
+    zip([iterable, ...])                # 返回对应数组
+        list(zip([1, 2, 3], [4, 5, 6])) # [(1, 4), (2, 5), (3, 6)]
+        a = [1, 2, 3],  b = ["a", "b", "c"]
+        z = zip(a, b)                   # 压缩：[(1, "a"), (2, "b"), (3, "c")]
+        zip(*z)                         # 解压缩：[(1, 2, 3), ("a", "b", "c")]
+    unicode(string, encoding, errors)   # 将字符串string转化为unicode形式，string为encoded string。	
+  
+
 #-- 重要内置函数用法详解
 	''' 由于一些内置函数经常用到，因此把好的写法总结起来'''
 	# enumerate(): get the index and value at the sametime
@@ -85,13 +160,10 @@ python 基本特性，主要数据结构及其方法，主要内置方法
 	for (a,b,c) in zip(ta,tb,tc):
 		print('ta is: %d \n tb is:%d \n tc is:%s' %(a,b,c))
 
-zipped = zip(ta,tb,tc)  # zipped is a list
-print(zipped)
-
-na,nb,nc = zipped # unpacking. each is a tuple
-
 	# 4.map(): 用函数批量处理iterable中的每个元素
 	absfrom,absto = map(os.path.abspath,[fromfile,todir])  # making absolute paths
+
+    
 
 
 
@@ -282,45 +354,37 @@ print b  #2
 函数参数传递
 iterator， generator， 闭包
 '''
-# 位置参数被打包为tuple，用*args表示
-# 关键字参数被打包为dict，用**kwargs表示
-def func1(*name):
-	print type(name)
-	print name
+#-- 函数参数传递 
+	'''
+	位置参数被打包为tuple，用*args表示
+	关键字参数被打包为dict，用**kwargs表示
+	'''
+#-- 函数参数，不可变参数通过“值”传递，可变参数通过“引用”传递
+    def f(a, b, c): print(a, b, c)
+    f(1, 2, 3)                         # 参数位置匹配
+    f(1, c = 3, b = 2)                 # 参数关键字匹配	
+    def f(a, b=1, c=2): print(a, b, c)
+    f(1)                               # 默认参数匹配。 输出(1, 1, 2)
+    f(1, 2)                            # 默认参数匹配。 输出(1, 2, 2)
+    f(a = 1, c = 3)                    # 关键字参数和默认参数的混合
+    # Keyword-Only参数:出现在*args之后 必须用关键字进行匹配
+    def keyOnly(a, *b, c): print('')   # c就为keyword-only匹配 必须使用关键字c = value匹配
+    def keyOnly(a, *, b, c): ......    # b c为keyword-only匹配 必须使用关键字匹配
+    def keyOnly(a, *, b = 1): ......   # b有默认值 或者省略 或者使用关键字参数b = value
 
-# 多个参数作为一个tuple传入。
-func1(1,4,6)
-func1(1,4,"6")
-
-# 多个参数作为dict传入
-def func2(**dict):
-    print type(dict)
-    print dict
-
-
-def add(a,b,c):
-    print a+b+c
-
-args = (1,3,4)
-add(*args) # 8
-
-kwargs = {'a':1,'b':2,'c':3}
-func2(**kwargs) 
-
-def say_hello_then_call_f(f, *args, **kwargs):
-    print 'args is',args
-    print 'kwargs is',kwargs
-    print ("Hello, Now I'm going to call %s" % f)
-    return f(*args,**kwargs)
-
-def g(x,y,z=1):
-    return (x+y)/z
-
-say_hello_then_call_f(g,1,2,0.5)
-# args is (1, 2, 0.5)
-# kwargs is {}
-# Hello, Now I'm going to call <function g at 0x10dfd11b8>
-# Out[50]: 6.0
+#-- 可变参数匹配: * 和 **
+    def f(*args): print(args)          # 在元组中收集不匹配的位置参数
+    f(1, 2, 3)                         # 输出(1, 2, 3)
+    def f(**args): print(args)         # 在字典中收集不匹配的关键字参数
+    f(a = 1, b = 2)                    # 输出{'a':1, 'b':2}
+    def f(a, *b, **c): print(a, b, c)  # 两者混合使用
+    f(1, 2, 3, x=4, y=5)               # 输出1, (2, 3), {'x':4, 'y':5}
+    
+#-- 函数调用时的参数解包(unpacking): * 和 ** 分别解包元组和字典
+    func(1, *(2, 3))  <==>  func(1, 2, 3)
+    func(1, **{'c':3, 'b':2})  <==>  func(1, b = 2, c = 3)
+    func(1, *(2, 3), **{'c':3, 'b':2})  <==>  func(1, 2, 3, b = 2, c = 3)
+	A=[[1,2,3],[4,5]]; product(*A)   # list也能拆包
 
 
 
@@ -389,27 +453,34 @@ print line,
 
 
 #------ os: interacting with operating system
-import os
-path = os.getcwd()  									# 获取当前工作路径 '/home/ads_inno/shawnma/py_practice'
-print(os.path.basename(path)) 							# py_practice
-print(os.path.dirname(path)) 							# /home/ads_inno/shawnma
-info = os.path.split(path) 								# 将路径名和文件名分开放
-os.chdir('') # 修改当前工作路径
-os.path.abspath(sub_dir)								# 将输入的子路径，构建成绝对路径。其实就是把当前的cwd加在前面
-os.path.exists(dir)										# 看某个路径是否存在
-os.mkdir(dir)											# 创建路径
-os.remove(dir) 											# 删除路径
-os.listdir(dir)											# 列出路径下的所有文件
-os.path.isabs(path)
-os.path.isfile(path)
-os.path.isdir(path)
-os.path.join(path, *paths)								# 用系统分隔符concatenate路径
+	import os
+	path = os.getcwd()  									# 获取当前工作路径 '/home/ads_inno/shawnma/py_practice'
+	print(os.path.basename(path)) 							# py_practice
+	print(os.path.dirname(path)) 							# /home/ads_inno/shawnma
+	info = os.path.split(path) 								# 将路径名和文件名分开放
+	os.chdir('') # 修改当前工作路径
+	os.path.abspath(sub_dir)								# 将输入的子路径，构建成绝对路径。其实就是把当前的cwd加在前面
+	os.path.exists(dir)										# 看某个路径是否存在
+	os.mkdir(dir)											# 创建路径
+	os.remove(dir) 											# 删除路径
+	os.listdir(dir)											# 列出路径下的所有文件
+	os.path.isabs(path)
+	os.path.isfile(path)
+	os.path.isdir(path)
+	os.path.join(path, *paths)								# 用系统分隔符concatenate路径
 
 #------- sys
-import sys
-sys_argv = sys.argv        # store command line arguments in a list
-first_argv = sys_argv[0]
-
+	import sys
+	sys_argv = sys.argv        # 获得脚本的参数
+	first_argv = sys_argv[0]
+    sys.builtin_module_names            # 查找内建模块
+    sys.platform                        # 返回当前平台 出现如： "win32" "linux" "darwin"等
+    sys.modules                         # 查找已导入的模块
+    sys.modules.keys()
+    sys.stdout                          # stdout 和 stderr 都是类文件对象，但是它们都是只写的。它们都没有 read 方法，只有 write 方法
+    sys.stdout.write("hello")
+    sys.stderr
+    sys.stdin 
 
 '''
 hackerrank中觉得比较使用的代码片段
@@ -417,7 +488,7 @@ hackerrank中觉得比较使用的代码片段
 #-- 从stdin读入多个参数
 n,m = map(int, raw_input().split()) #raw_input()读入的是string，必须转型
 
-#-- print statement后面加逗号，可以把对象打在同一行
+#-- print statement后面加逗号，可以把对象打在同一行,而不是newline \n
 for n in range(1,5):
     print n,
 
@@ -430,7 +501,7 @@ print(*range(1,n+1),sep='')
 
 # 从stdin中读入N个值
 students=[]
-for _ in range(int(raw_input())):
+for _ in range(int(raw_input())):  #这里_只是一个普通变量，只是我们不会去用它
     name = raw_input()
     score = float(raw_input())
     students.append([name,score])
