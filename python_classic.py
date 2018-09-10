@@ -468,6 +468,11 @@ print line,
 	os.path.isfile(path)
 	os.path.isdir(path)
 	os.path.join(path, *paths)								# 用系统分隔符concatenate路径
+	
+#----- shutil: high level file management tools
+	import shutil
+	shutil.move(src, dst)
+	shutil.copyfile(src, dst)
 
 #------- sys
 	import sys
