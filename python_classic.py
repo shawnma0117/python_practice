@@ -420,9 +420,9 @@ for i in g1:
 
 #-------------闭包:返回函数的函数----------------------------
 def format_and_pad(template, space):
-    def formatter(x):
-        return (template % x).rjust(space)
-    return formatter
+	def formatter(x):
+		return (template % x).rjust(space)
+	return formatter
 
 fmt = format_and_pad('%.4f',15)
 fmt(1.999999)
@@ -439,17 +439,17 @@ python 标准库学习
 '''
 
 #------- file:文本文件的输入输出
-f=open('record.txt','w')
-f.write('tom,12,86\nlee,15,99\nlucy,11,58\njoseph,19,56\n')
-f.close()
- 
-f=open('record.txt','r')
-print(f.read())
-f.close()
+	f=open('record.txt','w')
+	f.write('tom,12,86\nlee,15,99\nlucy,11,58\njoseph,19,56\n')
+	f.close()
 
-with open(“testfile.txt”) as f: 
-for line in f: 
-print line, 
+	f=open('record.txt','r')
+	print(f.read())
+	f.close()
+
+	with open(“testfile.txt”) as f: 
+	for line in f: 
+	print line, 
 
 
 #------ os: interacting with operating system
@@ -468,6 +468,7 @@ print line,
 	os.path.isfile(path)
 	os.path.isdir(path)
 	os.path.join(path, *paths)								# 用系统分隔符concatenate路径
+	os.system(cmd)                                          # 万金油功能
 	
 #----- shutil: high level file management tools
 	import shutil
