@@ -25,3 +25,6 @@ if __name__=='__main__':
         except:
             print('Error joining files:')
             print(sys.exc_info()[0],sys.exc_info()[1])
+
+
+test sourcetree
