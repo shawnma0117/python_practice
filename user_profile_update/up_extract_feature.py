@@ -79,7 +79,7 @@ if __name__=="__main__":
 	# cond = [pf.user_log_acct== trim(lower(df.pin))] # 画像表的pin是小写
 	for name,df in crowd.items():
 		out_name = name + '_pf'
-		out_pf = pf.join(df, pf.user_log_acct== trim(lower(df.pin)),how='left_semi')
+		out_pf = pf.join(df, pf.user_log_acct == trim(lower(df.pin)),how='left_semi')
 		out_pf.write.csv(path=os.path.join(HDFS_BASE_PATH,out_name),sep='|',mode='overwrite')
 	
 	# distribution of extended attributes of working station
