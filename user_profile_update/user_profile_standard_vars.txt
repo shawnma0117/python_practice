@@ -1,1 +1,0 @@
-﻿user_log_acct,cpp_base_ulevel,cpp_base_age, cpp_base_sex, cpp_base_marriage, cpp_base_education,cpp_base_profession,cpp_addr_province, cpp_addr_city,csf_sale_client,csf_sale_paytype,csf_medal_mombaby,csf_medal_beauty,csf_medal_wine,cgp_cust_purchpower,cfv_sens_promotion,cfv_cate_90dcate1,cfv_cate_90dcate2, cfv_cate_90dcate3,cfv_brand_favor
