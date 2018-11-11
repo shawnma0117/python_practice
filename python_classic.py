@@ -290,7 +290,7 @@ print b  #2
 
 
 #-- 字典dictionary
-	''' 字典有多种方式'''
+	''' 创建字典有多种方式'''
 	d={};animal_counts['horse'] = 1 	            # 1. set a null dict, then append
 	d = {'hourse':1,'cats':2,'dogs':5,'snakes':0}  	# 2. set explictly 
 	d=dict()  									    # 3. from two list which stores keys and values separately
@@ -305,6 +305,7 @@ print b  #2
 	animal_counts.keys() # return all keys
 	animal_counts.values() # return all values
 	animal_counts.update({'elepant':100}) # merge one dict with another
+    dictMerged2=dict(dict1, **dict2) # merge two dict
 	animal_counts.clear() # clear all the content
 	for k,v in dict.items():  # iterate over a dictionary
 
