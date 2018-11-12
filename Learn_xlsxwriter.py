@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[ ]:
-
-
 # %load Learn_xlsxwriter.py
 import xlsxwriter
 
@@ -119,15 +113,8 @@ worksheet.set_column('C:C', None, format2)
 writer.save()
 
 
-# In[4]:
-
-
 import xlsxwriter
 import pandas as pd
-
-
-# In[37]:
-
 
 # 实验用户画像代码，应该如何写formatting
 df = pd.DataFrame({'Numbers':    [1010, 2020, 3030, 2020, 1515, 3030, 4545],
@@ -178,33 +165,17 @@ for col_num, value in enumerate(df.columns.values):
     ws.write(0, col_num, value, header_fmt)
 
 
-# In[27]:
-
-
-get_ipython().magic(u'pinfo df.iterrows')
-
-
-# In[42]:
-
-
-# 打印df主题
+# 打印df主体
 col = 0
 for idx, row in df.iterrows():
     ws.write(idx+1, col, row[0], cell_num_fmt)
     ws.write(idx+1, col+1, row[1], cell_pct_num_fmt)
 
 
-# In[ ]:
-
-
 # 设置一整行，一整列。 会被后面的格式设置覆盖
 # ws.set_row(0,None,header_fmt) 
 # ws.set_column(1,1,None,cell_num_fmt)
 # ws.set_column(2,2,None,cell_pct_num_fmt)
-
-
-# In[43]:
-
 
 writer.save()
 
