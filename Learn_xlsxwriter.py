@@ -1,3 +1,10 @@
+
+# coding: utf-8
+
+# In[ ]:
+
+
+# %load Learn_xlsxwriter.py
 import xlsxwriter
 
 # Create a workbook and add a worksheet.
@@ -112,31 +119,92 @@ worksheet.set_column('C:C', None, format2)
 writer.save()
 
 
-# my little experiment
-# 为了用户画像的代码
+# In[4]:
+
+
+import xlsxwriter
+import pandas as pd
+
+
+# In[37]:
+
+
+# 实验用户画像代码，应该如何写formatting
 df = pd.DataFrame({'Numbers':    [1010, 2020, 3030, 2020, 1515, 3030, 4545],
                    'Percentage': [.1,   .2,   .33,  .25,  .5,   .75,  .45 ],
 })
 
 # Create a Pandas Excel writer using XlsxWriter as the engine.
-writer = pd.ExcelWriter("pandas_column_formats.xlsx", engine='xlsxwriter')
+writer = pd.ExcelWriter("pd_col_formats.xlsx", engine='xlsxwriter')
 
-# Convert the dataframe to an XlsxWriter Excel object.
-df.to_excel(writer, sheet_name='Sheet1')
+
+# In[38]:
+
+
+# 不能直接用df.to_excel, 因为无法控制每个单元格的格式。
 wb  = writer.book
-ws = writer.sheets['Sheet1']
-'font_name':,
+# ws = writer.sheets['Sheet1']
+ws = wb.add_worksheet('sheet1')
+
+
+# In[39]:
+
+
+# 'font_name':,
 header_dict = {'bold':True, 'bg_color':'#D9E1F2', 'border':True}
 cell_num_dict = {'border':True, 'num_format':'#,##0'}   # 千分位整数
 cell_pct_num_dict = {'border':True, 'num_format':'0.0%'} # 百分号后1位
+
+
+# In[40]:
+
 
 header_fmt = wb.add_format(header_dict)
 cell_num_fmt = wb.add_format(cell_num_dict)
 cell_pct_num_fmt = wb.add_format(cell_pct_num_dict)
 
-ws.set_row(0,None,header_fmt)
-ws.set_column(1,1,None,cell_num_fmt)
-ws.set_column(2,2,None,cell_pct_num_fmt)
+
+# In[20]:
+
+
+df.columns.values
+
+
+# In[41]:
+
+
+# 单独打印header
+for col_num, value in enumerate(df.columns.values):
+    ws.write(0, col_num, value, header_fmt)
+
+
+# In[27]:
+
+
+get_ipython().magic(u'pinfo df.iterrows')
+
+
+# In[42]:
+
+
+# 打印df主题
+col = 0
+for idx, row in df.iterrows():
+    ws.write(idx+1, col, row[0], cell_num_fmt)
+    ws.write(idx+1, col+1, row[1], cell_pct_num_fmt)
+
+
+# In[ ]:
+
+
+# 设置一整行，一整列。 会被后面的格式设置覆盖
+# ws.set_row(0,None,header_fmt) 
+# ws.set_column(1,1,None,cell_num_fmt)
+# ws.set_column(2,2,None,cell_pct_num_fmt)
+
+
+# In[43]:
+
 
 writer.save()
 
