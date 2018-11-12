@@ -28,6 +28,47 @@ worksheet.write(row, 1, '=SUM(B1:B4)')
 
 workbook.close()
 
+##############################################################################
+#
+#  adding formatting
+# Create a workbook and add a worksheet.
+workbook = xlsxwriter.Workbook('Expenses02.xlsx')
+worksheet = workbook.add_worksheet()
+
+# Add a bold format to use to highlight cells.
+bold = workbook.add_format({'bold': True})
+
+# Add a number format for cells with money.
+money = workbook.add_format({'num_format': '$#,##0'})
+
+# Write some data headers.
+worksheet.write('A1', 'Item', bold)
+worksheet.write('B1', 'Cost', bold)
+
+# Some data we want to write to the worksheet.
+expenses = (
+ ['Rent', 1000],
+ ['Gas',   100],
+ ['Food',  300],
+ ['Gym',    50],
+)
+
+# Start from the first cell below the headers.
+row = 1
+col = 0
+
+# Iterate over the data and write it out row by row.
+for item, cost in (expenses):
+ worksheet.write(row, col,     item)
+ worksheet.write(row, col + 1, cost, money)
+ row += 1
+
+# Write a total using a formula.
+worksheet.write(row, 0, 'Total',       bold)
+worksheet.write(row, 1, '=SUM(B2:B5)', money)
+
+workbook.close()
+
 
 ##############################################################################
 #
@@ -69,3 +110,33 @@ worksheet.set_column('C:C', None, format2)
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()
+
+
+# my little experiment
+# 为了用户画像的代码
+df = pd.DataFrame({'Numbers':    [1010, 2020, 3030, 2020, 1515, 3030, 4545],
+                   'Percentage': [.1,   .2,   .33,  .25,  .5,   .75,  .45 ],
+})
+
+# Create a Pandas Excel writer using XlsxWriter as the engine.
+writer = pd.ExcelWriter("pandas_column_formats.xlsx", engine='xlsxwriter')
+
+# Convert the dataframe to an XlsxWriter Excel object.
+df.to_excel(writer, sheet_name='Sheet1')
+wb  = writer.book
+ws = writer.sheets['Sheet1']
+'font_name':,
+header_dict = {'bold':True, 'bg_color':'#D9E1F2', 'border':True}
+cell_num_dict = {'border':True, 'num_format':'#,##0'}   # 千分位整数
+cell_pct_num_dict = {'border':True, 'num_format':'0.0%'} # 百分号后1位
+
+header_fmt = wb.add_format(header_dict)
+cell_num_fmt = wb.add_format(cell_num_dict)
+cell_pct_num_fmt = wb.add_format(cell_pct_num_dict)
+
+ws.set_row(0,None,header_fmt)
+ws.set_column(1,1,None,cell_num_fmt)
+ws.set_column(2,2,None,cell_pct_num_fmt)
+
+writer.save()
+
